@@ -16,7 +16,6 @@ exports.up = function(knex) {
         tbl
             .boolean('complete')
             .defaultTo('false')
-            .notNullable()
 
     })
 };

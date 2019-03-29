@@ -32,6 +32,43 @@ server.get('/projects', async (req, res) => {
 });
 
 
+// GET project by id
+server.get('/projects/:id', async (req, res) => {
+    try {
+        const student = await db('projects')
+            .where({ id: req.params.id })
+            .first();
+        res.status(200).json(student);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
+
+// POST create new project. Name is required.
+server.post('/projects', async (req, res) => {
+    if (!req.body.name || !req.body.description) { 
+        return res.status(400).json({ message:"Please include a name and description to create a new project" 
+    })}
+    try {
+        const [id] = await db('projects').insert(req.body);
+        const project = await db('projects')
+            .where({ id })
+            .first();
+        res.status(201).json(project);
+    } catch (error) {
+        const message = errors[error.errno] || "We ran into an error";
+        res.status(500).json({ message });
+    }
+});
+
+
+
+
+
+
+
+
 
 
 

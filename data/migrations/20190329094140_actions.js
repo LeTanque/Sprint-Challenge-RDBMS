@@ -16,15 +16,14 @@ exports.up = function(knex) {
             .inTable('projects')
             .onDelete('CASCADE')
             .onUpdate('CASCADE')
+            .notNullable()
 
         tbl
             .string('notes', 128)
-            .notNullable()
 
         tbl
             .boolean('complete')
             .defaultTo('false')
-            .notNullable()
 
     })
 };
