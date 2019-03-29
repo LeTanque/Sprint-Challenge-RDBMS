@@ -1,12 +1,11 @@
 const express = require('express');
 const helmet = require('helmet');
-// const otherRoutes = require('./otherRoutes.js');
+const actions = require('./router.js');
 
-const db = require('./knexConfig');
-// const Roles = require('./roles/roles-model.js');
+const db = require('./knexConfig.js');
 
-const server = express();
 const port = process.env.PORT || 5000;
+const server = express();
 const errors = { // Dynamic error messaging based on sqlite codes
     '1': 'We ran into an error.',
     '4': 'Operation aborted',
@@ -16,7 +15,7 @@ const errors = { // Dynamic error messaging based on sqlite codes
 
 server.use(helmet());
 server.use(express.json());
-// server.use('/otherRoutes', otherRoutes);
+server.use('/actions', actions);
 
 
 
@@ -63,6 +62,11 @@ server.post('/projects', async (req, res) => {
 });
 
 
+// PUT update without name param
+server.put('/projects', async (req, res) => {
+    res.status(400).json({ message:"Please include an ID to update" })
+})
+
 
 // PUT update student. name and cohort_id required. Must be unique req.body.name. Must be cohort that exists
 server.put('/projects/:id', async (req, res) => {
@@ -88,17 +92,22 @@ server.put('/projects/:id', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
+// DELETE remove project
+server.delete('/projects/:id', async (req, res) => {
+    try {
+        const count = await db('projects')
+            .where({ id: req.params.id })
+            .del();
+        if (count > 0) {
+            res.status(204).end();
+        } else {
+            res.status(404).json({ message:"Project not found" });
+        }
+    } catch (error) {
+        const message = errors[error.errno] || "We ran into an error";
+        res.status(500).json({ message });
+    }
+});
 
 
 
