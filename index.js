@@ -64,6 +64,29 @@ server.post('/projects', async (req, res) => {
 
 
 
+// PUT update student. name and cohort_id required. Must be unique req.body.name. Must be cohort that exists
+server.put('/projects/:id', async (req, res) => {
+    if (!req.body.name || !req.body.description) { 
+        return res.status(400).json({ message:"Please include a name and description to update a project" })
+    }
+    try {
+        const count = await db('projects')
+            .where({ id: req.params.id })
+            .update(req.body);
+        if (count > 0) {
+            const project = await db('projects')
+                .where({ id: req.params.id })
+                .first();
+            res.status(200).json(project);
+        } else {
+            res.status(404).json({ message:"Records not found" });
+        }
+    } catch (error) {
+        const message = errors[error.errno] || "We ran into an error";
+        res.status(500).json({ message });
+    }
+});
+
 
 
 
