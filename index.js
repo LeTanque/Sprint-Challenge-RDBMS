@@ -65,16 +65,12 @@ server.get('/projects', async (req, res) => {
 
 
 // Trying something new
-server.get("/projects/:id", async (req, res) => {
+server.get('/projects/:id', async (req, res) => {
     try {
-      const project = await db
-        .select('*')
-        .from("projects as p")
-        .where({ "p.id": req.params.id })
+      const project = await db('projects')
+        .where({ 'projects.id': req.params.id })
         .first();
-  
-      const actions = await db("actions")
-        .select('*')
+      const actions = await db('actions')
         .where({ project_id: req.params.id });
       res.status(200).json({ ...project, actions });
     } catch (error) {
