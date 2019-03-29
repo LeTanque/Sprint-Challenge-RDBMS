@@ -19,7 +19,10 @@ server.use('/actions', actions);
 
 
 
-// Endpoints
+// Endpoints for projects
+// Endpoints for actions are in the router
+// TODO: break this into a router or, ideally, break this and student out into their own files under router
+//
 // GET list all projects
 server.get('/projects', async (req, res) => {
     try {
@@ -64,7 +67,7 @@ server.get('/projects', async (req, res) => {
 // });
 
 
-// Trying something new
+// GET actions that belong to project. GET project by id parameter. Combine them in the json return as a nested object.
 server.get('/projects/:id', async (req, res) => {
     try {
       const project = await db('projects')
