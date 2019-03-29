@@ -31,15 +31,31 @@ server.get('/projects', async (req, res) => {
 });
 
 
-// GET project by id
+// // GET project by id. Old style without actions associated with project
+// server.get('/projects/:id', async (req, res) => {
+//     try {
+//         const project = await db('projects')
+//             .where({ id: req.params.id })
+//             .first();
+//         res.status(200).json(project);
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
+// });
+
+
+// GET actions that belong to project by project ID parameter
 server.get('/projects/:id', async (req, res) => {
     try {
-        const student = await db('projects')
-            .where({ id: req.params.id })
-            .first();
-        res.status(200).json(student);
+        const projectActions = await db('projects')
+            .join('actions', `projects.id`, 'actions.project_id')
+            .where('projects.id', req.params.id)
+        if (projectActions.length < 1) {
+            return res.status(404).json({ message:"No actions in given project" })
+        }
+        res.status(200).json(projectActions)
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json(error)
     }
 });
 
@@ -60,12 +76,6 @@ server.post('/projects', async (req, res) => {
         res.status(500).json({ message });
     }
 });
-
-
-// PUT update without name param
-server.put('/projects', async (req, res) => {
-    res.status(400).json({ message:"Please include an ID to update" })
-})
 
 
 // PUT update student. name and cohort_id required. Must be unique req.body.name. Must be cohort that exists

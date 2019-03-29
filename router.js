@@ -61,12 +61,6 @@ router.post('/', async (req, res) => {
 });
 
 
-// PUT update without name param
-router.put('/', async (req, res) => {
-    res.status(400).json({ message:"Please include action ID to update" })
-})
-
-
 // PUT update action. name and project_id required. Must be project that exists
 router.put('/:id', async (req, res) => {
     if (!req.body.name || !req.body.project_id) { 

@@ -7,6 +7,7 @@ module.exports = {
       filename: './data/project_tracker.db3',
     },
     useNullAsDefault: true, // needed for sqlite
+    debug: true,
     migrations: {
       directory: './data/migrations',
     },
