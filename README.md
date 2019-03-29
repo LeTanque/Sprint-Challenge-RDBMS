@@ -1,5 +1,7 @@
 # Sprint Challenge: RDBMS and SQL - Projects & Actions
 
+## Frank Martinez Branch
+
 This challenge allows you to practice the concepts and techniques learned over the past Sprint and apply them in a concrete project.
 
 This Sprint explored Adding Data Persistence to Web APIs and you were taught the following modules: Introduction to Relational Databases and SQL, Inserting and Modifying Data, Querying Data; Migrations and Seeding and Introduction to Data Modeling.
@@ -18,7 +20,7 @@ You have three hours to complete this challenge. Plan your time accordingly.
 
 ## Commits
 
-Commit your code regularly and meaningfully. This helps both you (in case you ever need to return to old code for any number of reasons and your project manager.
+Commit your code regularly and meaningfully. This helps both you (in case you ever need to return to old code for any number of reasons) and your project manager.
 
 ## Description
 
