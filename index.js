@@ -19,7 +19,7 @@ server.use('/actions', actions);
 
 
 
-
+// Endpoints
 // GET list all projects
 server.get('/projects', async (req, res) => {
     try {
@@ -78,7 +78,7 @@ server.post('/projects', async (req, res) => {
 });
 
 
-// PUT update student. name and cohort_id required. Must be unique req.body.name. Must be cohort that exists
+// PUT update project. name and project_id required. Must be unique req.body.name. Must be project that exists
 server.put('/projects/:id', async (req, res) => {
     if (!req.body.name || !req.body.description) { 
         return res.status(400).json({ message:"Please include a name and description to update a project" })
