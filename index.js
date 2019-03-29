@@ -44,21 +44,44 @@ server.get('/projects', async (req, res) => {
 // });
 
 
-// GET actions that belong to project by project ID parameter
-server.get('/projects/:id', async (req, res) => {
+// // GET actions that belong to project by project ID parameter
+// server.get('/projects/:id', async (req, res) => {
+//     try {
+//         const projectActions = await db('projects')
+//             // .groupBy('projects.name')
+//             .select('*').from('projects')
+//             .where('projects.id', req.params.id)
+//             .join('actions', function() {
+//                 this.on('projects.id', '=', 'actions.project_id')
+//             })
+//         if (projectActions.length < 1) {
+//             return res.status(404).json({ message:"No actions in given project" })
+//         }
+//         res.status(200).json(projectActions)
+//     } catch (error) {
+//         res.status(500).json(error)
+//     }
+// });
+
+
+// Trying something new
+server.get("/projects/:id", async (req, res) => {
     try {
-        const projectActions = await db('projects')
-            .join('actions', `projects.id`, 'actions.project_id')
-            .where('projects.id', req.params.id)
-        if (projectActions.length < 1) {
-            return res.status(404).json({ message:"No actions in given project" })
-        }
-        res.status(200).json(projectActions)
+      const project = await db
+        .select('*')
+        .from("projects as p")
+        .where({ "p.id": req.params.id })
+        .first();
+  
+      const action = await db("actions")
+        .select('*')
+        .where({ project_id: req.params.id });
+      res.status(200).json({ ...project, action });
     } catch (error) {
         res.status(500).json(error)
     }
-});
-
+  });
+  
 
 // POST create new project. Name is required.
 server.post('/projects', async (req, res) => {
