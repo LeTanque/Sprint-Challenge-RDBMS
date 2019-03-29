@@ -73,10 +73,10 @@ server.get("/projects/:id", async (req, res) => {
         .where({ "p.id": req.params.id })
         .first();
   
-      const action = await db("actions")
+      const actions = await db("actions")
         .select('*')
         .where({ project_id: req.params.id });
-      res.status(200).json({ ...project, action });
+      res.status(200).json({ ...project, actions });
     } catch (error) {
         res.status(500).json(error)
     }
